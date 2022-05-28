@@ -1,0 +1,26 @@
+; https://rextester.com/UYW47709
+(defun listDepth (lst1)
+    (cond
+        ((numberp lst1) (return-from listDepth 0))
+        ((not (listp lst1)) (return-from listDepth 0))
+        ((equal lst1 NIL) (return-from listDepth 0))
+        ((null lst1) 0)
+        ((listp lst1) (+ 1 (apply #'max (mapcar #'listDepth lst1))))
+        ;apply takes max function and (mapcar #'listDepth) which is a list, as argumemnts. 
+        ;(mapcar #'listDepth lst1) applies the listDepth function to all the elements of lst1 and returns a list of integers that are the depth of each element. Then max takes the biggest number from this list and +1 to get the total depth of the list
+        ;example trace:
+        ;(listDepth '((1) 2 3))
+        ;1 + (max (1 0 0))
+        ;1 + 1 = depth of 2
+    )
+)
+
+(print (listDepth '1)) ;0
+(print (listDepth '(1 2))) ;1
+(print (listDepth '((1 2) 3))) ;2
+(print (listDepth '(((1 3 4)) 2))) ;3
+(print (listDepth NIL)) ;0
+(print (listDepth 1)) ;0
+(print (listDepth '(1))) ;1
+(print (listDepth '((2)))) ;2
+(print (listDepth '((2)(3 (6))(4)))) ;3

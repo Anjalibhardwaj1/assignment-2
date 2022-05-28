@@ -1,0 +1,41 @@
+; http://tpcg.io/NJNTTQ 
+;recursive function to break down a list into a sublist with elements starting from index 0 until index TO
+
+(defun subToTo (list a)
+    (cond
+        ((= a 0) ()) ;do nothing when a = 0 (stops the recursion)
+        (t (cons (car list) (subToTo (cdr list) (- a 1))))
+        ;construct a list with the head of the list the head of its own tail (2nd element, 3rd element, etc) and recursively calls itself until a = 0. Resulting list will be a list of the same elements from index 1 to index a
+    )
+)
+
+;recusrive function to return a list from index FROM to TO
+(defun sub-list (lst1 FROM &optional (TO NIL))
+    (cond
+        ;conditions where NIL is returned: FROM, TO are NIl, FROM is 0 or TO is greater than the size of the list
+        ;When TO is NIL (which it is by default) length of the list is used as the value for TO
+        ((equal FROM NIL) (return-from sub-list NIL))
+        ((= FROM 0) (return-from sub-list NIL))
+        ((equal TO NIL) (setq TO (list-length lst1)))
+        ((= TO 0) (return-from sub-list NIL))
+        ((> TO (list-length lst1)) (return-from sub-list NIL))
+    )
+    (cond
+        ;recursively call itself where the parameter is its own tail until the head of the list is the index FROM. Does so by doing FROM - 1 until FROM = 1. Each time it does FROM - 1 the head of the list moves up one index basically
+        ((= FROM 1) (subToTo lst1 TO))
+        (t (sub-list (cdr lst1) (- FROM 1) (- TO 1)))
+        ;example trace: (sub-list '(a b c d e) 3 4)
+        ;(sub-list (b c d e) 2 3)
+        ;(sub-list (c d e) 1 2)
+        ;(c d)
+    )
+)
+
+;tests
+(print (sub-list '(a b c d e f g) 3 5))
+(print (sub-list '(1 4 10) 2 3))
+(print (sub-list '(1 4 10) 2))
+(print (sub-list '(1 7 12) 1 4))
+(print (sub-list '(1 7 12) 0 1))
+(print (sub-list '(1 6 12) 4 2))
+(print (sub-list '(1 6 12)))
